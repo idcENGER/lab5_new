@@ -1,12 +1,10 @@
 package org.example.Commands;
-
+/*
+* Interface for ANY command of console application
+* */
 public interface Command {
 
-    public void execute(String ...args);
-
-    public String getName();
-
-    public String description();
+    void execute(String ...args);
 
 }
 

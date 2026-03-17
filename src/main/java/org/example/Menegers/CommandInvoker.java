@@ -1,27 +1,37 @@
 package org.example.Menegers;
 
+import org.example.Commands.AbstractCommand;
 import org.example.Commands.Command;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandInvoker {
-    private static final Map<String, Command> commandMap = new HashMap<>();
+    private static final Map<String, AbstractCommand> commandMap = new HashMap<>();
     private org.example.Menegers.CollectionManager collectionManager;
     public CommandInvoker(org.example.Menegers.CollectionManager collectionManager)  {
         this.collectionManager = collectionManager;
     }
-    public void register(Command command){
+    public void register(AbstractCommand command){
         commandMap.put(command.getName(), command);
     }
     public void execute(String commandName){
         commandMap.get(commandName).execute();
     }
 
-    public static void getCommandMap(){
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    public static void getCommands(){
         for (var value: commandMap.values()){
-           System.out.println(value.description());
+           System.out.println(value.getDescription());
         }
+    }
+
+    public Map<String, AbstractCommand> getCommandMap(){
+        return commandMap;
     }
 
 }

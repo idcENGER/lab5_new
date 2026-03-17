@@ -1,8 +1,8 @@
 package org.example.Menegers;
 
+import org.example.MusicBands.MusicBand;
 
 import java.util.HashSet;
-import java.io.File;
 
 public class CollectionManager {
     private final HashSet<MusicBand> collections = new HashSet<>();
@@ -13,9 +13,10 @@ public class CollectionManager {
         collections.clear();
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
 }
 
-class MusicBand{
-    File xmlFile = new File("data2.xml");
-
-}

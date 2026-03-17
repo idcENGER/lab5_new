@@ -1,18 +1,18 @@
 package org.example.Commands;
 
-public class Show implements Command{
+import org.example.Menegers.CollectionManager;
+
+public class Show extends AbstractCommand{
+
+    CollectionManager collectionManager;
+
+    public Show(CollectionManager collectionManager) {
+        super("show", "показывает информацию о коллекции");
+        this.collectionManager = collectionManager;
+    }
+
     @Override
     public void execute(String... args) {
 
-    }
-
-    @Override
-    public String getName() {
-        return "";
-    }
-
-    @Override
-    public String description() {
-        return "";
     }
 }
