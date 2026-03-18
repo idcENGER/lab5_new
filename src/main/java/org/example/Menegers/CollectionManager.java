@@ -13,6 +13,10 @@ public class CollectionManager {
         collections.clear();
     }
 
+    public HashSet<MusicBand> getCollections(){
+        return collections;
+    }
+
     @Override
     public String toString() {
         return super.toString();

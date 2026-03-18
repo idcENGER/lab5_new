@@ -9,13 +9,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class XmlHandler {
-    public static void SerializeXMLXStream() throws IOException {
+    public static MusicBand DeserializeXMLXStream(String dataPath) throws IOException {
         XStream xStream = new XStream();
         xStream.allowTypes(new Class[] {MusicBand.class});
-        String content = Files.readString(Paths.get("/home/enger/Projects/lab5_new/src/main/java/org/example/Test.xml"));
+        String content = Files.readString(Paths.get(dataPath));
         xStream.alias("MusicBand",MusicBand.class);
-        MusicBand musicBand = (MusicBand) xStream.fromXML(content);
-        System.out.println(musicBand.toString());
+        return (MusicBand) xStream.fromXML(content);
+    }
+    public static String SerializeXMLXStream(MusicBand musicBand){
+        XStream xStream = new XStream();
+        return xStream.toXML(musicBand);
     }
 
 

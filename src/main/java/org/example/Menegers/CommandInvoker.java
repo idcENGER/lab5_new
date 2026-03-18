@@ -24,11 +24,6 @@ public class CommandInvoker {
         return super.toString();
     }
 
-    public static void getCommands(){
-        for (var value: commandMap.values()){
-           System.out.println(value.getDescription());
-        }
-    }
 
     public Map<String, AbstractCommand> getCommandMap(){
         return commandMap;

@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Exceptions.WrongCommandException;
 import org.example.Menegers.CommandInvoker;
 
 public class Help extends AbstractCommand{
@@ -13,8 +14,13 @@ public class Help extends AbstractCommand{
 
     @Override
     public void execute(String... args) {
-        for (var value : this.commandInvoker.getCommandMap().values()) {
-            System.out.println(value.getDescription());
+        try {
+            if (!args[1].isEmpty()) throw new WrongCommandException();
+            for (var value : this.commandInvoker.getCommandMap().values()) {
+                System.out.println(value.getDescription());
+            }
+        }catch (WrongCommandException exception){
+            System.out.println(exception.toString());
         }
     }
 }

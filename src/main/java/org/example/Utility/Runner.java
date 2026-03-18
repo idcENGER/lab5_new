@@ -1,9 +1,6 @@
 package org.example.Utility;
 
-import org.example.Commands.Clear;
-import org.example.Commands.Exit;
-import org.example.Commands.Help;
-import org.example.Commands.Info;
+import org.example.Commands.*;
 import org.example.Menegers.CollectionManager;
 import org.example.Menegers.CommandInvoker;
 import org.example.Menegers.XmlHandler;
@@ -15,12 +12,14 @@ public class Runner {
     public static void run() throws IOException {
         CollectionManager collectionManager = new CollectionManager();
         CommandInvoker commandInvoker = new CommandInvoker(collectionManager);
+        Builder builder = new Builder();
         Scanner scanner = new Scanner(System.in);
         commandInvoker.register(new Help(commandInvoker));
         commandInvoker.register(new Info());
         commandInvoker.register(new Clear());
         commandInvoker.register(new Exit());
-        XmlHandler.SerializeXMLXStream();
+        commandInvoker.register(new Show(collectionManager));
+        commandInvoker.register(new Add(collectionManager, builder));
         System.out.print(":~$ ");
         while (true) {
             String commandName = scanner.nextLine();
