@@ -8,12 +8,11 @@ import java.time.ZonedDateTime;
 import java.util.Scanner;
 
 
-public class Builder {
-
+public class MusicBandBuilder {
     MusicBand musicBand;
     Scanner scanner = new Scanner(System.in);
 
-    public MusicBand buildMuisicBand() throws NullPointerException{
+    public MusicBand buildMuisicBandByNoArgs() throws NullPointerException{
         try {
             return new MusicBand(askName(),askCoordinates());
         } catch (NullPointerException ex){
@@ -42,6 +41,12 @@ public class Builder {
         return null;
     }
     private Person askFrontMan(){
+        return null;
+    }
+
+    public MusicBand buildMuisicBandByArgs() throws NullPointerException{
+        String[] args = Console.args;
+        //return new MusicBand();
         return null;
     }
 }

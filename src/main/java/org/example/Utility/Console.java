@@ -3,38 +3,32 @@ package org.example.Utility;
 import org.example.Commands.*;
 import org.example.Menegers.CollectionManager;
 import org.example.Menegers.CommandInvoker;
-import org.example.Menegers.XmlHandler;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Runner {
-    public static void run() throws IOException {
+public class Console {
+
+    public static String[] args;
+
+    public static void run(){
         CollectionManager collectionManager = new CollectionManager();
         CommandInvoker commandInvoker = new CommandInvoker(collectionManager);
-        Builder builder = new Builder();
+        MusicBandBuilder builder = new MusicBandBuilder();
         Scanner scanner = new Scanner(System.in);
         commandInvoker.register(new Help(commandInvoker));
         commandInvoker.register(new Info());
-        commandInvoker.register(new Clear());
+        commandInvoker.register(new Clear(collectionManager));
         commandInvoker.register(new Exit());
         commandInvoker.register(new Show(collectionManager));
         commandInvoker.register(new Add(collectionManager, builder));
-        System.out.print(":~$ ");
+        System.out.print("=>");
         while (true) {
-            String commandName = scanner.nextLine();
+            args = scanner.nextLine().split(" ",2);
+            System.out.println(Arrays.stream(args).toList());
+            String commandName = args[0];
             commandInvoker.execute(commandName);
-            System.out.print(":~$ ");
-            if (commandName.equals("exit")){
-                break;
-            }
-            if (commandName.equals("help")) {
-                System.out.print("");
-            } else if (commandName.equals("add")) {
-                System.out.print("");
-            } else if (commandName.equals("")) {
-                System.out.print("");
-            }
+            System.out.print("=>");
         }
     }
 }

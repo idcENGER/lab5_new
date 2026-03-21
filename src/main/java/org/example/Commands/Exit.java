@@ -7,8 +7,8 @@ public class Exit extends AbstractCommand{
 
     @Override
     public void execute(String... args) {
-        System.out.println("exit");
-        System.exit(0);
+        System.out.print("exit");
+        System.exit(1);
 
     }
 }
