@@ -1,13 +1,13 @@
 package org.example.Commands;
 
 import org.example.Menegers.CollectionManager;
-import org.example.Utility.Builder;
+import org.example.Utility.MusicBandBuilder;
 import org.example.Utility.Console;
 import org.example.Utility.MusicBandBuilder;
 
 public class Add extends AbstractCommand{
     CollectionManager collectionManager;
-    Builder builder;
+    MusicBandBuilder builder;
 
     public Add(CollectionManager collectionManager, MusicBandBuilder builder) {
         super("add","добавить новый элемент в коллекцию");
