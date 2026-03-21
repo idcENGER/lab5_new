@@ -2,6 +2,7 @@ package org.example.Menegers;
 
 import org.example.Commands.AbstractCommand;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public class CommandInvoker {
             commandMap.get(commandName).execute();
         }catch (NullPointerException ex){
             System.err.println("Unsupported command: " + ex.getMessage());
+        }catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

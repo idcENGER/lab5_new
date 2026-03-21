@@ -4,6 +4,8 @@ import org.example.Menegers.CollectionManager;
 import org.example.Utility.MusicBandBuilder;
 import org.example.Utility.Console;
 
+import java.io.IOException;
+
 public class Add extends AbstractCommand{
     CollectionManager collectionManager;
     MusicBandBuilder builder;
@@ -18,15 +20,19 @@ public class Add extends AbstractCommand{
     public void execute(String... args) {
         args = Console.args;
         if (args.length == 1){
-            collectionManager.add(builder.buildMuisicBandByNoArgs());
+            collectionManager.add(builder.buildMusicBandByNoArgs());
         }else {
-            switch (args[1]){
-                case "-f" -> collectionManager.add(builder.buildMuisicBandByNoArgs()); //change the method
-                case "-a" -> collectionManager.add(builder.buildMuisicBandByArgs());
+            String flag = args[1].split(" ")[0];
+            switch (flag){
+                case "-f" -> {
+                    try {
+                        collectionManager.add(builder.buildMusicBandByFile(args[1].split(" ")[1]));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                case "-a" -> collectionManager.add(builder.buildMusicBandByArgs());
             }
         }
-        /*else{if(Console.args[1].equals("-f")){collectionManager.add(builder.buildMuisicBandByNoArgs());}
-            else{if(Console.args[1].equals("-a")){collectionManager.add(builder.buildMuisicBandByArgs());}}
-        }*/
     }
 }

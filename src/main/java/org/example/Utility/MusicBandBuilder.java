@@ -1,20 +1,26 @@
 package org.example.Utility;
 
+import org.example.Menegers.XmlHandler;
 import org.example.MusicBands.Coordinates;
 import org.example.MusicBands.MusicBand;
 import org.example.MusicBands.MusicGenre;
 import org.example.MusicBands.Person;
+
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Scanner;
 
 
 public class MusicBandBuilder {
-    MusicBand musicBand;
     Scanner scanner = new Scanner(System.in);
 
-    public MusicBand buildMuisicBandByNoArgs() throws NullPointerException{
+    public MusicBand buildMusicBandByNoArgs() throws NullPointerException{
         try {
-            return new MusicBand(askName(),askCoordinates());
+            ZonedDateTime creationDate = ZonedDateTime.now();
+            LocalDate establishmentDate = LocalDate.now();
+            return new MusicBand(askName(), askCoordinates(), creationDate, askNumberOfParticipants(),
+                    establishmentDate);
         } catch (NullPointerException ex){
             ex.getMessage();
         }
@@ -22,7 +28,7 @@ public class MusicBandBuilder {
     }
 
     String askName(){
-        System.out.print("Введите имя музыкальной группы:") ;
+        System.out.print("Введите имя музыкальной группы: ") ;
         return scanner.nextLine();
     }
 
@@ -35,8 +41,10 @@ public class MusicBandBuilder {
     }
 
     private Long askNumberOfParticipants(){
-        return null;
-    };
+        System.out.print("Введите число участников: ");
+        return Long.parseLong(scanner.nextLine());
+    }
+
     private MusicGenre askGenre(){
         return null;
     }
@@ -44,9 +52,14 @@ public class MusicBandBuilder {
         return null;
     }
 
-    public MusicBand buildMuisicBandByArgs() throws NullPointerException{
+    public MusicBand buildMusicBandByArgs() throws NullPointerException{
         String[] args = Console.args;
         //return new MusicBand();
         return null;
     }
+
+    public MusicBand buildMusicBandByFile(String path) throws IOException {
+        return XmlHandler.DeserializeXMLXStream(path);
+    }
+
 }

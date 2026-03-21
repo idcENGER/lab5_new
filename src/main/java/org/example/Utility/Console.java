@@ -3,6 +3,7 @@ package org.example.Utility;
 import org.example.Commands.*;
 import org.example.Menegers.CollectionManager;
 import org.example.Menegers.CommandInvoker;
+import org.example.MusicBands.Color;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -22,12 +23,13 @@ public class Console {
         commandInvoker.register(new Exit());
         commandInvoker.register(new Show(collectionManager));
         commandInvoker.register(new Add(collectionManager, builder));
+        //System.out.println(Arrays.toString(Color.values()));
+        Color.colors();
         while (true) {
             System.out.print("=>");
             args = scanner.nextLine().split(" ",2);
             if (args[0].isEmpty()){continue;}
             String commandName = args[0];
-            System.out.println(Arrays.toString(args));
             commandInvoker.execute(commandName);
         }
     }
