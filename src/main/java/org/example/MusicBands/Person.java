@@ -6,4 +6,25 @@ public class Person {
     private String passportID; //Строка не может быть пустой, Значение этого поля должно быть уникальным, Длина строки не должна быть больше 22, Поле может быть null
     private Color hairColor; //Поле может быть null
     private Location location; //Поле может быть null
+
+    public Person(String name,Float height,String passportID,Color hairColor,Location location){}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setHairColor(Color hairColor) {
+        this.hairColor = hairColor;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setPassportID(String passportID) {
+        this.passportID = passportID;
+    }
 }

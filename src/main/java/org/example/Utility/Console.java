@@ -22,13 +22,13 @@ public class Console {
         commandInvoker.register(new Exit());
         commandInvoker.register(new Show(collectionManager));
         commandInvoker.register(new Add(collectionManager, builder));
-        System.out.print("=>");
         while (true) {
-            args = scanner.nextLine().split(" ",2);
-            System.out.println(Arrays.stream(args).toList());
-            String commandName = args[0];
-            commandInvoker.execute(commandName);
             System.out.print("=>");
+            args = scanner.nextLine().split(" ",2);
+            if (args[0].isEmpty()){continue;}
+            String commandName = args[0];
+            System.out.println(Arrays.toString(args));
+            commandInvoker.execute(commandName);
         }
     }
 }
