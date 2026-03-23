@@ -1,7 +1,10 @@
 package org.example.Menegers;
 
 import org.example.MusicBands.MusicBand;
+import org.example.Utility.XmlHandler;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashSet;
 
 public class CollectionManager {
@@ -20,6 +23,10 @@ public class CollectionManager {
 
     public Integer getSize(){
         return collections.size();
+    }
+
+    public Object recoverCollection(String path) throws IOException {
+        return  XmlHandler.DeserializeXMLXStream(path);
     }
 
     @Override

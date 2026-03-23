@@ -1,7 +1,6 @@
 package org.example.Utility;
 
 import org.example.Menegers.CollectionManager;
-import org.example.Menegers.XmlHandler;
 import org.example.MusicBands.*;
 
 import java.io.IOException;
@@ -91,7 +90,7 @@ public class MusicBandBuilder {
     }
 
     public static MusicBand buildMusicBandByFile(String path) throws IOException {
-        return XmlHandler.DeserializeXMLXStream(path);
+        return (MusicBand) XmlHandler.DeserializeXMLXStream(path);
     }
 
 }

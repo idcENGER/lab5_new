@@ -26,7 +26,7 @@ public class Add extends AbstractCommand{
                     try {
                         collectionManager.add(MusicBandBuilder.buildMusicBandByFile(args[1].split(" ")[1]));
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Нет файла: " + "\"" +e.getMessage() + "\"");
                     }
                 }
                 case "-a" -> collectionManager.add(MusicBandBuilder.buildMusicBandByArgs());
