@@ -12,20 +12,21 @@ public class MusicBand {
     private MusicGenre genre; //Поле может быть null
     private Person frontMan; //Поле не может быть null
 
-    public MusicBand(String name,Coordinates coordinates,java.time.ZonedDateTime creationDate,
-                     Long numberOfParticipants,java.time.LocalDate establishmentDate/*,MusicGenre genre,Person frontMan*/){
+    public MusicBand(Integer id, String name,Coordinates coordinates,java.time.ZonedDateTime creationDate,
+                     Long numberOfParticipants,java.time.LocalDate establishmentDate,MusicGenre genre,Person frontMan){
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;
         this.numberOfParticipants = numberOfParticipants;
         this.establishmentDate = establishmentDate;
-        /*this.genre = genre;
-        this.frontMan = frontMan;*/
+        this.genre = genre;
+        this.frontMan = frontMan;
     }
 
     @Override
     public String toString(){
-        return getClass().getSimpleName()+"{" + name + "," + coordinates.toString() + "," + creationDate + "," +
-                 numberOfParticipants + "," +creationDate + "}";
+        return getClass().getSimpleName()+"{" + id + ", " + name + ", " + coordinates.toString() + ", " + creationDate + ", " +
+                 numberOfParticipants + ", " + establishmentDate + ", " + genre + ", " + frontMan.toString() + "}";
     }
 }

@@ -8,7 +8,10 @@ public enum Color {
 
     public static void colors() {
         for (var i : Color.values()){
-            System.out.println(i);
+            String index = String.valueOf(i.ordinal());
+            String sign = (Color.WHITE.ordinal() == Integer.parseInt(index)) ? "." : ", ";
+            System.out.print((index + ": " + i) + sign);
         }
+        System.out.println();
     }
 }

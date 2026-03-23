@@ -3,28 +3,26 @@ package org.example.Utility;
 import org.example.Commands.*;
 import org.example.Menegers.CollectionManager;
 import org.example.Menegers.CommandInvoker;
-import org.example.MusicBands.Color;
+import org.example.Menegers.XmlHandler;
+import org.example.MusicBands.MusicBand;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Console {
 
     public static String[] args;
 
-    public static void run(){
+    public static void run() throws IOException {
         CollectionManager collectionManager = new CollectionManager();
         CommandInvoker commandInvoker = new CommandInvoker(collectionManager);
-        MusicBandBuilder builder = new MusicBandBuilder();
         Scanner scanner = new Scanner(System.in);
         commandInvoker.register(new Help(commandInvoker));
-        commandInvoker.register(new Info());
+        commandInvoker.register(new Info(collectionManager));
         commandInvoker.register(new Clear(collectionManager));
         commandInvoker.register(new Exit());
         commandInvoker.register(new Show(collectionManager));
-        commandInvoker.register(new Add(collectionManager, builder));
-        //System.out.println(Arrays.toString(Color.values()));
-        Color.colors();
+        commandInvoker.register(new Add(collectionManager));
         while (true) {
             System.out.print("=>");
             args = scanner.nextLine().split(" ",2);

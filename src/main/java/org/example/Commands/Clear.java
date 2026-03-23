@@ -8,6 +8,7 @@ public class Clear extends AbstractCommand{
 
     public Clear(CollectionManager collectionManager) {
         super("clear", "очистить коллекцию");
+        this.collectionManager = collectionManager;
     }
 
     @Override

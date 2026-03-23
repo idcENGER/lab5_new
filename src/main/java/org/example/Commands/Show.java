@@ -13,6 +13,9 @@ public class Show extends AbstractCommand {
 
     @Override
     public void execute(String... args) {
-        System.out.println(collectionManager.getCollections());
+        if (collectionManager.getSize() == 0){System.out.println("Коллекция пуста");}
+        for (var i : collectionManager.getCollections()){
+            System.out.println(i);
+        }
     }
 }

@@ -8,30 +8,28 @@ import java.io.IOException;
 
 public class Add extends AbstractCommand{
     CollectionManager collectionManager;
-    MusicBandBuilder builder;
 
-    public Add(CollectionManager collectionManager, MusicBandBuilder builder) {
+    public Add(CollectionManager collectionManager) {
         super("add","[-af] добавить новый элемент в коллекцию");
         this.collectionManager = collectionManager;
-        this.builder = builder;
     }
 
     @Override
     public void execute(String... args) {
         args = Console.args;
         if (args.length == 1){
-            collectionManager.add(builder.buildMusicBandByNoArgs());
+            collectionManager.add(MusicBandBuilder.buildMusicBandByNoArgs(collectionManager));
         }else {
             String flag = args[1].split(" ")[0];
             switch (flag){
                 case "-f" -> {
                     try {
-                        collectionManager.add(builder.buildMusicBandByFile(args[1].split(" ")[1]));
+                        collectionManager.add(MusicBandBuilder.buildMusicBandByFile(args[1].split(" ")[1]));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                case "-a" -> collectionManager.add(builder.buildMusicBandByArgs());
+                case "-a" -> collectionManager.add(MusicBandBuilder.buildMusicBandByArgs());
             }
         }
     }

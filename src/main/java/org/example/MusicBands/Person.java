@@ -7,24 +7,17 @@ public class Person {
     private Color hairColor; //Поле может быть null
     private Location location; //Поле может быть null
 
-    public Person(String name,Float height,String passportID,Color hairColor,Location location){}
-    public void setName(String name) {
+    public Person(String name,Float height,String passportID,Color hairColor,Location location){
         this.name = name;
-    }
-
-    public void setHairColor(Color hairColor) {
         this.hairColor = hairColor;
-    }
-
-    public void setHeight(Float height) {
         this.height = height;
-    }
-
-    public void setLocation(Location location) {
+        this.passportID = passportID;
         this.location = location;
     }
 
-    public void setPassportID(String passportID) {
-        this.passportID = passportID;
+    @Override
+    public String toString(){
+        return getClass().getSimpleName()+"{" + name + ", " + height + ", " + passportID + ", " +
+                hairColor + ", " + location.toString() + "}";
     }
 }
