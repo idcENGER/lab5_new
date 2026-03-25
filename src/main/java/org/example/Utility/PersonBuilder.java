@@ -86,4 +86,13 @@ public class PersonBuilder {
 
     }
 
+    public static Person updatePerson(Person person){
+        person.setName(askName());
+        person.setHeight(askHeight());
+        person.setPassportID(askPassportID());
+        person.setHairColor(askHairColor());
+        person.setLocation(askLocation());
+        return person;
+    }
+
 }

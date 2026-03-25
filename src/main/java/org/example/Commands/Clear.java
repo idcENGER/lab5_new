@@ -1,6 +1,7 @@
 package org.example.Commands;
 
 import org.example.Menegers.CollectionManager;
+import org.example.Utility.Console;
 
 public class Clear extends AbstractCommand{
 
@@ -13,6 +14,13 @@ public class Clear extends AbstractCommand{
 
     @Override
     public void execute(String... args) {
-        collectionManager.clear();
+        try {
+        if(Console.args.length > 1){
+            throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
+        }
+            collectionManager.clear();
+        }catch (ArrayIndexOutOfBoundsException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

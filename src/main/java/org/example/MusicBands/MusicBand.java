@@ -30,6 +30,10 @@ public class MusicBand {
         return this.id;
     }
 
+    public Person getFrontMan() {
+        return frontMan;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

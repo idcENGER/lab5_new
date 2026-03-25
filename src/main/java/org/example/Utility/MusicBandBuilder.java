@@ -20,7 +20,7 @@ public class MusicBandBuilder {
             LocalDate establishmentDate = LocalDate.now();
             Integer id = collectionManager.getSize()+1;
             return new MusicBand(id,askName(), askCoordinates(), creationDate, askNumberOfParticipants(),
-                    establishmentDate,askGenre(),askFrontMan());
+                    establishmentDate,askGenre(),askFrontMan(true,null));
         } catch (NullPointerException ex){
             System.out.println(ex.getMessage());
         }
@@ -89,8 +89,12 @@ public class MusicBandBuilder {
             }
         }
     }
-    private static Person askFrontMan(){
-        return PersonBuilder.buildPerson();
+    private static Person askFrontMan(boolean newMusicBand,MusicBand musicBand){
+        if(newMusicBand){
+            return PersonBuilder.buildPerson();
+        }else {
+            return PersonBuilder.updatePerson(musicBand.getFrontMan());
+        }
     }
 
     public static MusicBand buildMusicBandByFile(String path) throws IOException {
@@ -100,6 +104,16 @@ public class MusicBandBuilder {
             System.out.println("Cant cast file data to HashSet<MusicBand> or file is empty");
             return null;
         }
+    }
+
+    public static void MusicBandUpdater(MusicBand musicBand){
+        musicBand.setName(askName());
+        musicBand.setCoordinates(askCoordinates());
+        musicBand.setCreationDate(ZonedDateTime.now());
+        musicBand.setNumberOfParticipants(askNumberOfParticipants());
+        musicBand.setEstablishmentDate(LocalDate.now());
+        musicBand.setGenre(askGenre());
+        musicBand.setFrontMan(askFrontMan(false,musicBand));
     }
 
 }

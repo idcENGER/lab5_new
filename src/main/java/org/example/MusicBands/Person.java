@@ -15,6 +15,26 @@ public class Person {
         this.location = location;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
+    }
+
+    public void setPassportID(String passportID) {
+        this.passportID = passportID;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setHairColor(Color hairColor) {
+        this.hairColor = hairColor;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName()+"{ NAME: " + name + ", HEIGHT: " + height + ", PASSPORT ID: " + passportID +

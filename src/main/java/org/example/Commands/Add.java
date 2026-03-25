@@ -20,13 +20,19 @@ public class Add extends AbstractCommand{
         if (args.length == 1){
             collectionManager.add(MusicBandBuilder.buildMusicBandByNoArgs(collectionManager));
         }else {
-            String flag = args[1].split(" ")[0];
+            String[] arg = args[1].split(" ");
+            String flag = arg[0];
             switch (flag){
                 case "-f" -> {
                     try {
+                        if (arg.length > 2 || arg.length == 1){
+                            throw new ArrayIndexOutOfBoundsException("Команда не поддерживает столько аргументов");
+                        }
                         collectionManager.add(MusicBandBuilder.buildMusicBandByFile(args[1].split(" ")[1]));
                     } catch (IOException e) {
                         System.out.println("Нет файла: " + "\"" +e.getMessage() + "\"");
+                    }catch (ArrayIndexOutOfBoundsException exception){
+                        System.out.println(exception.getMessage());
                     }
                 }
                 case "-a" -> collectionManager.add(MusicBandBuilder.buildMusicBandByNoArgs(collectionManager));

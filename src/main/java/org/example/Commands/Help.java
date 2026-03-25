@@ -1,6 +1,7 @@
 package org.example.Commands;
 
 import org.example.Menegers.CommandInvoker;
+import org.example.Utility.Console;
 
 public class Help extends AbstractCommand{
 
@@ -13,9 +14,17 @@ public class Help extends AbstractCommand{
 
     @Override
     public void execute(String... args) {
-        for (var value : this.commandInvoker.getCommandMap().values()) {
-            System.out.println(value.getDescription());
 
+        try {
+            if(Console.args.length > 1){
+                throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
+            }
+            for (var value : this.commandInvoker.getCommandMap().values()) {
+                System.out.println(value.getDescription());
+
+            }
+        }catch (ArrayIndexOutOfBoundsException exception){
+            System.out.println(exception.getMessage());
         }
     }
 }

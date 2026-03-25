@@ -1,7 +1,9 @@
 package org.example.Commands;
 
 import org.example.Menegers.CollectionManager;
+import org.example.MusicBands.MusicBand;
 import org.example.Utility.Console;
+import org.example.Utility.MusicBandBuilder;
 
 public class Update_by_id extends AbstractCommand{
     CollectionManager collectionManager;
@@ -15,9 +17,10 @@ public class Update_by_id extends AbstractCommand{
     public void execute(String... args) {
         try {
             int id = Integer.parseInt(Console.args[1]);
-            collectionManager.getMusicBandByID(id);
-        } catch (NumberFormatException e) {
-            System.out.println("Некорректное значение id" + e.getMessage());
+            MusicBand musicBand = collectionManager.getMusicBandByID(id);
+            MusicBandBuilder.MusicBandUpdater(musicBand);
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            System.out.println("Некорректное значение id: " + e.getMessage());
         }
     }
 }

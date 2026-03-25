@@ -33,9 +33,7 @@ public class Console {
             args = command.split(" ", 2);
             String commandName = args[0];
             if (args[0].isBlank()){continue;}
-            if(args[0].equals("add") | args[0].equals("remove_by_id")){
-                commandInvoker.execute(commandName);
-            }else {commandInvoker.execute(command);}
+            commandInvoker.execute(commandName);
         }
     }
 }
