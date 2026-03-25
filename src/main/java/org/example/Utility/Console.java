@@ -23,17 +23,19 @@ public class Console {
         commandInvoker.register(new Show(collectionManager));
         commandInvoker.register(new Add(collectionManager));
         commandInvoker.register(new Save(collectionManager, Path.of("data.xml")));
+        commandInvoker.register(new Remove_by_id(collectionManager));
+        commandInvoker.register(new Update_by_id(collectionManager));
+        collectionManager.recoverCollection("data.xml");
+        System.out.println("Welcome to Lab5APP. Enter help to get command list.");
         while (true){
             System.out.print("=>");
-            String s = scanner.nextLine();
-            while (s.startsWith(" ") || s.startsWith("\t")){
-                if (s.startsWith(" ")) {s = s.replaceFirst(" ","");}
-                if (s.startsWith("\t")) {s = s.replaceFirst("\t","");}
-            }
-            args = s.split(" ", 2);
+            String command = XmlHandler.SpaceRemover(scanner.nextLine());
+            args = command.split(" ", 2);
             String commandName = args[0];
             if (args[0].isBlank()){continue;}
-            commandInvoker.execute(commandName);
+            if(args[0].equals("add") | args[0].equals("remove_by_id")){
+                commandInvoker.execute(commandName);
+            }else {commandInvoker.execute(command);}
         }
     }
 }

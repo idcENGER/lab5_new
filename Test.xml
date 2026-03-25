@@ -1,0 +1,23 @@
+<MusicBand>
+    <id>2</id>
+    <name>Nirvana</name>
+    <coordinates>
+        <x>2120</x>
+        <y>-140.0</y>
+    </coordinates>
+    <creationDate>2024-03-16T14:20:00Z[Z]</creationDate>
+    <numberOfParticipants>4</numberOfParticipants>
+    <establishmentDate>1988-10-11</establishmentDate>
+    <genre>ROCK</genre>
+    <frontMan>
+        <name>Serega</name>
+        <height>181.0</height>
+        <passportID>CD12876543</passportID>
+        <hairColor>WHITE</hairColor>
+        <location>
+            <x>52.5074</x>
+            <y>-2713400</y>
+            <z>141.0</z>
+        </location>
+    </frontMan>
+</MusicBand>

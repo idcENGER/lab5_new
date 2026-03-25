@@ -1,5 +1,7 @@
 package org.example.Utility;
 
+import com.thoughtworks.xstream.mapper.CannotResolveClassException;
+import org.example.Exceptions.CastToException;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.*;
 
@@ -20,7 +22,7 @@ public class MusicBandBuilder {
             return new MusicBand(id,askName(), askCoordinates(), creationDate, askNumberOfParticipants(),
                     establishmentDate,askGenre(),askFrontMan());
         } catch (NullPointerException ex){
-            System.err.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
         return null;
     }
@@ -29,7 +31,7 @@ public class MusicBandBuilder {
         while(true){
             try {
                 System.out.print("Введите название музыкальной группы: ");
-                String name = scanner.nextLine();
+                String name = XmlHandler.SpaceRemover(scanner.nextLine());
                 if (name.isBlank()){throw new IllegalArgumentException("Имя не может быть пустым");}
                 return name;
             }catch (IllegalArgumentException ex){
@@ -41,16 +43,16 @@ public class MusicBandBuilder {
     private static Coordinates askCoordinates() throws IllegalArgumentException{
         while(true) {
             try {
-                System.out.print("Введите координату x: ");
-                int x = Integer.parseInt(scanner.nextLine());
-                System.out.print("Введите координату y(не меньше -147): ");
-                double y = Double.parseDouble(scanner.nextLine());
+                System.out.print("Введите координаты в формате x,y(не меньше -147): ");
+                String[] coordinates = XmlHandler.SpaceRemover(scanner.nextLine()).split(",");
+                int x = Integer.parseInt(coordinates[0]);
+                double y = Double.parseDouble(coordinates[1]);
                 if (y <= -147) {
                     throw new IllegalArgumentException("Слишком маленькое значение для y = " + y);
                 }else{
                     return new Coordinates(x, y);
                 }
-            }catch (IllegalArgumentException ex){
+            }catch (IllegalArgumentException | IndexOutOfBoundsException ex){
                 System.out.println("Некорректные данные. " + ex.getMessage());
             }
         }
@@ -58,11 +60,19 @@ public class MusicBandBuilder {
 
     private static Long askNumberOfParticipants(){
         System.out.print("Введите число участников: ");
-        long n;
-        n = Long.parseLong(scanner.nextLine());
+        long n = 0L;
+        try {
+            n = Long.parseLong(XmlHandler.SpaceRemover(scanner.nextLine()));
+        } catch (NumberFormatException ex) {
+            System.out.println(ex.getMessage());
+        }
         while (n <= 0L){
             System.out.print("Введено некорректное значение. Введите целое число участников: ");
-            n = Long.parseLong(scanner.nextLine());
+            try {
+                n = Long.parseLong(XmlHandler.SpaceRemover(scanner.nextLine()));
+            }catch (NumberFormatException exception){
+                System.out.println(exception.getMessage());
+            }
         }
         return n;
     }
@@ -70,12 +80,12 @@ public class MusicBandBuilder {
     private static MusicGenre askGenre(){
         while (true){
             MusicGenre.genre();
-            System.out.println("Введите номер жанра музыки: ");
+            System.out.println("Введите жанр музыки: ");
             try {
-                int index = Integer.parseInt(scanner.nextLine());
-                return MusicGenre.values()[index];
-            }catch (IndexOutOfBoundsException ex){
-                System.out.println("Некорректный номер. Попробуйте еще раз.");
+                String genre = XmlHandler.SpaceRemover(scanner.nextLine());
+                return MusicGenre.valueOf(genre);
+            }catch (IllegalArgumentException ex){
+                System.out.println("Некорректный жанр. Попробуйте еще раз.");
             }
         }
     }
@@ -83,14 +93,13 @@ public class MusicBandBuilder {
         return PersonBuilder.buildPerson();
     }
 
-    public static MusicBand buildMusicBandByArgs() throws NullPointerException{
-        String[] args = Console.args;
-        //return new MusicBand();
-        return null;
-    }
-
     public static MusicBand buildMusicBandByFile(String path) throws IOException {
-        return (MusicBand) XmlHandler.DeserializeXMLXStream(path);
+        try {
+            return XmlHandler.DeserializeMusicBandXMLXStream(path);
+        }catch (CastToException | CannotResolveClassException exception){
+            System.out.println("Cant cast file data to HashSet<MusicBand> or file is empty");
+            return null;
+        }
     }
 
 }

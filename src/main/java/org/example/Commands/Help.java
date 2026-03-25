@@ -1,6 +1,5 @@
 package org.example.Commands;
 
-import org.example.Exceptions.WrongCommandException;
 import org.example.Menegers.CommandInvoker;
 
 public class Help extends AbstractCommand{

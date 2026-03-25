@@ -19,10 +19,8 @@ public class CommandInvoker {
             commandMap.get(commandName).execute();
         }catch (NullPointerException ex){
             System.out.println("Unsupported command");
-        }catch (NoSuchFileException exception) {
-            System.out.println(exception.getMessage());
-        }catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
         }
     }
 

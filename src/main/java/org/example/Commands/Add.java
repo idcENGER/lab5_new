@@ -29,7 +29,7 @@ public class Add extends AbstractCommand{
                         System.out.println("Нет файла: " + "\"" +e.getMessage() + "\"");
                     }
                 }
-                case "-a" -> collectionManager.add(MusicBandBuilder.buildMusicBandByArgs());
+                case "-a" -> collectionManager.add(MusicBandBuilder.buildMusicBandByNoArgs(collectionManager));
             }
         }
     }

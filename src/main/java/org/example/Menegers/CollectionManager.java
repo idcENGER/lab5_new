@@ -4,10 +4,11 @@ import org.example.MusicBands.MusicBand;
 import org.example.Utility.XmlHandler;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class CollectionManager {
+
     private final HashSet<MusicBand> collections = new HashSet<>();
 
     public void add(MusicBand musicBand){
@@ -25,8 +26,23 @@ public class CollectionManager {
         return collections.size();
     }
 
-    public Object recoverCollection(String path) throws IOException {
-        return  XmlHandler.DeserializeXMLXStream(path);
+    public void recoverCollection(String path) throws IOException,NullPointerException {
+        HashSet<MusicBand> data = XmlHandler.DeserializeCollectionXMLXStream(path);
+        if (data!=null) {collections.addAll(data);}
+    }
+
+    public MusicBand getMusicBandByID(int id){
+        try {
+            for (MusicBand musicBand : collections) {
+                if (musicBand.getId() == id) {
+                    return musicBand;
+                }
+            }
+        }catch (NullPointerException ex){
+            System.out.println("Collection is empty");
+        }
+        System.out.println("Музыкальной группы с таким id нет");
+        return null;
     }
 
     @Override

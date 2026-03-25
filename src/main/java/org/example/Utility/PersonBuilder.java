@@ -1,9 +1,7 @@
 package org.example.Utility;
 
-import org.example.MusicBands.Color;
-import org.example.MusicBands.Coordinates;
-import org.example.MusicBands.Location;
-import org.example.MusicBands.Person;
+import org.example.Exceptions.WrongArgumentException;
+import org.example.MusicBands.*;
 
 import java.util.Scanner;
 
@@ -16,45 +14,75 @@ public class PersonBuilder {
     static Scanner scanner = new Scanner(System.in);
 
     private static String askName(){
-        System.out.print("Введите имя артиста: ") ;
-        return scanner.nextLine();
-    }
-
-    private static Coordinates askCoordinates() {
-        System.out.print("Введите координату x: ");
-        int x = Integer.parseInt(scanner.nextLine());
-        System.out.print("Введите координату y(не меньше -147): ");
-        double y = Double.parseDouble(scanner.nextLine());
-        return new Coordinates(x,y);
+        while (true){
+            System.out.print("Введите имя артиста: ");
+            try {
+            String name = XmlHandler.SpaceRemover(scanner.nextLine());
+            if (name.matches("^[A-ZА-ЯЁ][a-zа-яё]+(?:[- ][A-ZА-ЯЁ][a-zа-яё]+)*$")) {return name;}
+        }catch (WrongArgumentException e){
+                System.out.println("В имени могут быть только буквы.");
+            }
+        }
     }
 
     private static Float askHeight(){
         float input;
         do {
             System.out.println("Введите рост артиста: ");
-            input = Float.parseFloat(scanner.nextLine());
+            try {
+                input = Float.parseFloat(XmlHandler.SpaceRemover(scanner.nextLine()));
+            }catch (NumberFormatException exception){
+                System.out.println(exception.getMessage());
+                input = 0f;
+            }
         }while (input <= 0f || input >= 300f);
         return input;
     }
 
-    private static String askPassportID(){
-        System.out.println("Введите пасспортные данные: ");
-        //Строка не может быть пустой, Значение этого поля должно быть уникальным, Длина строки не должна быть больше 22, Поле может быть null
-        return scanner.nextLine();
+    private static String askPassportID() throws IllegalArgumentException {
+        while (true){
+            System.out.println("Введите пасспортные данные: ");
+            try {
+                String id = XmlHandler.SpaceRemover(scanner.nextLine());
+                if (id.length() >22) {
+                    throw new IllegalArgumentException("В пасспортных данных не больше 22 символов.");
+                }
+                if(id.isBlank()){
+                    throw new NullPointerException("Строка не может быть пустой");
+                }
+                return id;
+            }catch (NullPointerException | IllegalArgumentException e){
+                System.out.println("Некорректные данные:" + e.getMessage());
+            }
+        }
     }
 
     private static Color askHairColor(){
-        System.out.println("Введите номер цвета волос артиста: ");
-        Color.colors();
-        return Color.values()[Integer.parseInt(scanner.nextLine())];
+        while (true){
+            Color.colors();
+            System.out.println("Введите номер цвета: ");
+            try {
+                String color = (XmlHandler.SpaceRemover(scanner.nextLine()));
+                return Color.valueOf(color);
+            }catch (IllegalArgumentException ex){
+                System.out.println("Некорректный цвет. Попробуйте еще раз.");
+            }
+        }
     }
 
     private static Location askLocation(){
-        System.out.println("Определение локации");
-        double x = Double.parseDouble(scanner.nextLine());
-        long y = Long.parseLong(scanner.nextLine());
-        float z = Float.parseFloat(scanner.nextLine());
-        return new Location(x,y,z);
+        while(true) {
+            try {
+                System.out.print("Введите координаты в формате x,y,z: ");
+                String[] location = XmlHandler.SpaceRemover(scanner.nextLine()).split(",");
+                double x = Double.parseDouble(XmlHandler.SpaceRemover(location[0]));
+                long y = Long.parseLong(XmlHandler.SpaceRemover(location[1]));
+                float z = Float.parseFloat(XmlHandler.SpaceRemover(location[2]));
+                return new Location(x,y,z);
+            }catch (IllegalArgumentException | IndexOutOfBoundsException ex){
+                System.out.println("Некорректные данные. " + ex.getMessage());
+            }
+        }
 
     }
 

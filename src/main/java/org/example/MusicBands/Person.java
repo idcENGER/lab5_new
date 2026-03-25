@@ -17,7 +17,7 @@ public class Person {
 
     @Override
     public String toString(){
-        return getClass().getSimpleName()+"{" + name + ", " + height + ", " + passportID + ", " +
-                hairColor + ", " + location.toString() + "}";
+        return getClass().getSimpleName()+"{ NAME: " + name + ", HEIGHT: " + height + ", PASSPORT ID: " + passportID +
+                ", HAIR COLOR: " + hairColor + ", " + location.toString() + "}";
     }
 }
