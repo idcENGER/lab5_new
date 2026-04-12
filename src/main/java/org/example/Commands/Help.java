@@ -1,7 +1,8 @@
 package org.example.Commands;
 
 import org.example.Menegers.CommandInvoker;
-import org.example.Utility.Console;
+
+import java.util.Arrays;
 
 public class Help extends AbstractCommand{
 
@@ -14,9 +15,9 @@ public class Help extends AbstractCommand{
 
     @Override
     public void execute(String... args) {
-
+        System.out.println(Arrays.toString(args));
         try {
-            if(Console.args.length > 1){
+            if(args.length != 0 && !args[0].equals("1") && !args[0].equals("")){
                 throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
             }
             for (var value : this.commandInvoker.getCommandMap().values()) {

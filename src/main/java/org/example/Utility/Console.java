@@ -12,7 +12,7 @@ public class Console {
 
     public static String[] args;
 
-    public static void run() throws IOException {
+    public static void run(String filename) throws IOException {
         CollectionManager collectionManager = new CollectionManager();
         CommandInvoker commandInvoker = new CommandInvoker();
         Scanner scanner = new Scanner(System.in);
@@ -25,14 +25,23 @@ public class Console {
         commandInvoker.register(new Save(collectionManager, Path.of("data.xml")));
         commandInvoker.register(new Remove_by_id(collectionManager));
         commandInvoker.register(new Update_by_id(collectionManager));
-        collectionManager.recoverCollection("data.xml");
+        commandInvoker.register(new Filter_contains_name(collectionManager));
+        commandInvoker.register(new Filter_starts_with_name(collectionManager));
+        commandInvoker.register(new Group_counting_by_creation_date(collectionManager));
+        commandInvoker.register(new Add_if_min(collectionManager));
+        commandInvoker.register(new Remove_greater(collectionManager));
+        commandInvoker.register(new Remove_lower(collectionManager));
+        commandInvoker.register(new Execute_script(commandInvoker));
+        collectionManager.recoverCollection(filename);
         System.out.println("Welcome to Lab5APP. Enter help to get command list.");
         while (true){
             System.out.print("=>");
             String command = XmlHandler.SpaceRemover(scanner.nextLine());
-            args = command.split(" ", 2);
+            command = command.replace("\t", " ");
+            args = command.split(" ",2);
             String commandName = args[0];
-            if (args[0].isBlank()){continue;}
+            XmlHandler.AllSpaceRemover(commandName);
+            if (commandName.isBlank()){continue;}
             commandInvoker.execute(commandName);
         }
     }

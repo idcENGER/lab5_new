@@ -1,6 +1,5 @@
 package org.example.Utility;
 
-import org.example.Exceptions.WrongArgumentException;
 import org.example.MusicBands.*;
 
 import java.util.Scanner;
@@ -19,7 +18,7 @@ public class PersonBuilder {
             try {
             String name = XmlHandler.SpaceRemover(scanner.nextLine());
             if (name.matches("^[A-ZА-ЯЁ][a-zа-яё]+(?:[- ][A-ZА-ЯЁ][a-zа-яё]+)*$")) {return name;}
-        }catch (WrongArgumentException e){
+        }catch (IllegalArgumentException e){
                 System.out.println("В имени могут быть только буквы.");
             }
         }
@@ -28,7 +27,7 @@ public class PersonBuilder {
     private static Float askHeight(){
         float input;
         do {
-            System.out.println("Введите рост артиста: ");
+            System.out.print("Введите рост артиста: ");
             try {
                 input = Float.parseFloat(XmlHandler.SpaceRemover(scanner.nextLine()));
             }catch (NumberFormatException exception){
@@ -41,7 +40,7 @@ public class PersonBuilder {
 
     private static String askPassportID() throws IllegalArgumentException {
         while (true){
-            System.out.println("Введите пасспортные данные: ");
+            System.out.print("Введите пасспортные данные: ");
             try {
                 String id = XmlHandler.SpaceRemover(scanner.nextLine());
                 if (id.length() >22) {
@@ -60,11 +59,15 @@ public class PersonBuilder {
     private static Color askHairColor(){
         while (true){
             Color.colors();
-            System.out.println("Введите номер цвета: ");
+            System.out.print("Введите цвет или его номер: ");
             try {
-                String color = (XmlHandler.SpaceRemover(scanner.nextLine()));
-                return Color.valueOf(color);
-            }catch (IllegalArgumentException ex){
+                String color = scanner.nextLine();
+                if(color.matches("^[0-9]+")){
+                    return Color.values()[Integer.parseInt(color)];
+                }else{
+                    return Color.valueOf(XmlHandler.SpaceRemover(color));
+                }
+            }catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ex){
                 System.out.println("Некорректный цвет. Попробуйте еще раз.");
             }
         }
@@ -74,7 +77,11 @@ public class PersonBuilder {
         while(true) {
             try {
                 System.out.print("Введите координаты в формате x,y,z: ");
-                String[] location = XmlHandler.SpaceRemover(scanner.nextLine()).split(",");
+                String str = XmlHandler.SpaceRemover(scanner.nextLine());
+                if (!str.substring(str.length()-1).matches("^[0-9]")){
+                    throw new IllegalArgumentException();
+                }
+                String[] location = str.split(",");
                 double x = Double.parseDouble(XmlHandler.SpaceRemover(location[0]));
                 long y = Long.parseLong(XmlHandler.SpaceRemover(location[1]));
                 float z = Float.parseFloat(XmlHandler.SpaceRemover(location[2]));

@@ -11,6 +11,18 @@ public class Location {
         this.z = z;
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public long getY() {
+        return y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{" + x + ", " + y + ", " + z + "}";

@@ -1,7 +1,6 @@
 package org.example.Commands;
 
 import org.example.Menegers.CollectionManager;
-import org.example.Utility.Console;
 
 public class Show extends AbstractCommand {
 
@@ -15,7 +14,7 @@ public class Show extends AbstractCommand {
     @Override
     public void execute(String... args) {
         try {
-            if(Console.args.length > 1){
+            if(args.length !=0 && !args[0].equals("1")){
                 throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
             }
             if (collectionManager.getSize() == 0){System.out.println("Коллекция пуста");}

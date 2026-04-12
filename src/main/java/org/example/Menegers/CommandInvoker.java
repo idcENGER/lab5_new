@@ -1,9 +1,12 @@
 package org.example.Menegers;
 
 import org.example.Commands.AbstractCommand;
+import org.example.Utility.Console;
+import org.example.Utility.XmlHandler;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +17,25 @@ public class CommandInvoker {
     public void register(AbstractCommand command){
         commandMap.put(command.getName(), command);
     }
+
     public void execute(String commandName) throws NullPointerException, NoSuchFileException {
         try {
-            commandMap.get(commandName).execute();
+            if (Console.args.length > 1) {
+                commandMap.get(commandName).execute(XmlHandler.SpaceRemover(Console.args[1]));
+            }else {
+                commandMap.get(commandName).execute();
+            }
+        }catch (NullPointerException ex){
+            System.out.println("Unsupported command");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void executeScriptCommand(String commandName,String[] args) throws NullPointerException{
+        System.out.println(commandName + " | " + Arrays.toString(args));
+        try {
+            commandMap.get(commandName).execute(args);
         }catch (NullPointerException ex){
             System.out.println("Unsupported command");
         } catch (IOException | ClassNotFoundException e) {

@@ -1,15 +1,26 @@
 package org.example.Commands;
 
-import java.io.IOException;
+import org.example.Menegers.CollectionManager;
+import org.example.Utility.XmlHandler;
 
 public class Filter_starts_with_name extends AbstractCommand{
 
-    public Filter_starts_with_name(String name, String description) {
-        super(name, description);
+    CollectionManager collectionManager;
+
+    public Filter_starts_with_name(CollectionManager collectionManager) {
+        super("fsn", "fstarts_with_name: вывести элементы, значение поля name которых начинается с заданной подстроки");
+        this.collectionManager = collectionManager;
     }
 
     @Override
-    public void execute(String... args) throws IOException, ClassNotFoundException {
-
+    public void execute(String... args){
+        try{
+            if(args.length == 0){
+                throw new ArrayIndexOutOfBoundsException("Аргумент не может быть равен нулю");
+            }
+            System.out.println(collectionManager.filterMusicBandByName(XmlHandler.SpaceRemover(args[0]),true).toString());
+        }catch (ArrayIndexOutOfBoundsException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }

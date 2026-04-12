@@ -1,13 +1,12 @@
 package org.example.Utility;
 
-import com.thoughtworks.xstream.mapper.CannotResolveClassException;
-import org.example.Exceptions.CastToException;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -16,9 +15,11 @@ public class MusicBandBuilder {
 
     public static MusicBand buildMusicBandByNoArgs(CollectionManager collectionManager) throws NullPointerException{
         try {
+            int id = 0;
             ZonedDateTime creationDate = ZonedDateTime.now();
             LocalDate establishmentDate = LocalDate.now();
-            Integer id = collectionManager.getSize()+1;
+            if (collectionManager != null) {
+                id = collectionManager.getSize() + 1;}
             return new MusicBand(id,askName(), askCoordinates(), creationDate, askNumberOfParticipants(),
                     establishmentDate,askGenre(),askFrontMan(true,null));
         } catch (NullPointerException ex){
@@ -44,7 +45,11 @@ public class MusicBandBuilder {
         while(true) {
             try {
                 System.out.print("Введите координаты в формате x,y(не меньше -147): ");
-                String[] coordinates = XmlHandler.SpaceRemover(scanner.nextLine()).split(",");
+                String str = XmlHandler.SpaceRemover(scanner.nextLine());
+                if(!str.substring(str.length()-1).matches("^[0-9]")){
+                    throw new IllegalArgumentException();
+                }
+                String[] coordinates = str.split(",");
                 int x = Integer.parseInt(coordinates[0]);
                 double y = Double.parseDouble(coordinates[1]);
                 if (y <= -147) {
@@ -80,10 +85,14 @@ public class MusicBandBuilder {
     private static MusicGenre askGenre(){
         while (true){
             MusicGenre.genre();
-            System.out.println("Введите жанр музыки: ");
+            System.out.print("Введите жанр музыки или её номер: ");
             try {
-                String genre = XmlHandler.SpaceRemover(scanner.nextLine());
-                return MusicGenre.valueOf(genre);
+                String genre = scanner.nextLine();
+                if(genre.matches("^[0-9]")){
+                    return MusicGenre.values()[Integer.parseInt(genre)];
+                }else{
+                    return MusicGenre.valueOf(XmlHandler.SpaceRemover(genre));
+                }
             }catch (IllegalArgumentException ex){
                 System.out.println("Некорректный жанр. Попробуйте еще раз.");
             }
@@ -97,11 +106,33 @@ public class MusicBandBuilder {
         }
     }
 
-    public static MusicBand buildMusicBandByFile(String path) throws IOException {
+    public static MusicBand buildMusicBandByParams(CollectionManager collectionManager, ArrayList<String> params) throws IOException {
         try {
-            return XmlHandler.DeserializeMusicBandXMLXStream(path);
-        }catch (CastToException | CannotResolveClassException exception){
-            System.out.println("Cant cast file data to HashSet<MusicBand> or file is empty");
+            String[] c = XmlHandler.SpaceRemover(params.get(1)).split(",");
+            String[] l = XmlHandler.SpaceRemover(params.get(8)).split(",");
+            Location location = new Location(Double.parseDouble(l[0]), Long.parseLong(l[1]), Float.parseFloat(l[2]));
+            Coordinates coordinates = new Coordinates(Integer.parseInt(c[0]), Double.parseDouble(c[1]));
+            Color color = Color.valueOf(XmlHandler.SpaceRemover(params.get(7)));
+            MusicGenre genre = MusicGenre.valueOf(XmlHandler.SpaceRemover(params.get(3)));
+            Person frontMan = new Person(
+                    XmlHandler.SpaceRemover(params.get(4)),
+                    Float.parseFloat(XmlHandler.SpaceRemover(params.get(5))),
+                    XmlHandler.SpaceRemover(params.get(6)),
+                    color,
+                    location
+            );
+            return new MusicBand(
+                    collectionManager.getSize() + 1,
+                    XmlHandler.SpaceRemover(params.get(0)),
+                    coordinates,
+                    ZonedDateTime.now(),
+                    Long.parseLong(XmlHandler.SpaceRemover(params.get(2))),
+                    LocalDate.now(),
+                    genre,
+                    frontMan
+            );
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
             return null;
         }
     }
@@ -115,5 +146,4 @@ public class MusicBandBuilder {
         musicBand.setGenre(askGenre());
         musicBand.setFrontMan(askFrontMan(false,musicBand));
     }
-
 }

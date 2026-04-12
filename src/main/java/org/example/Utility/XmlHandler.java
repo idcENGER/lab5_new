@@ -29,8 +29,6 @@ public class XmlHandler {
         xStream.alias("MusicBand",MusicBand.class);
         xStream.alias("Collection",HashSet.class);
         try {
-            //Cannot cast wrong files
-            //noinspection unchecked
             return (HashSet<MusicBand>) xStream.fromXML(content);
         }catch (StreamException exception) {
             if (!content.isBlank()){System.out.println("Cant cast file data to HashSet<MusicBand> or file is empty");}
@@ -47,9 +45,17 @@ public class XmlHandler {
     }
 
     public static String SpaceRemover(String message){
-        while (message.startsWith(" ") || message.startsWith("\t")){
-            if (message.startsWith(" ")) {message = message.replaceFirst(" ","");}
-            if (message.startsWith("\t")) {message = message.replaceFirst("\t","");}
+        message = message.replace("\t"," ");
+        while (message.startsWith(" ")){
+            message = message.replaceFirst(" ","");
+        }
+        return message;
+    }
+
+    public static String AllSpaceRemover(String message){
+        message = message.replace("\t"," ");
+        while (message.contains(" ")){
+            message = message.replaceFirst(" ","");
         }
         return message;
     }

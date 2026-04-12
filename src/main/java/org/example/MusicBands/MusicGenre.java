@@ -1,6 +1,6 @@
 package org.example.MusicBands;
 
-public enum MusicGenre {
+public enum MusicGenre implements Comparable<MusicGenre>{
     ROCK,
     PROGRESSIVE_ROCK,
     PSYCHEDELIC_ROCK,
@@ -15,4 +15,5 @@ public enum MusicGenre {
         }
         System.out.println();
     }
+
 }

@@ -1,7 +1,5 @@
 package org.example.Commands;
 
-import org.example.Utility.Console;
-
 public class Exit extends AbstractCommand{
 
     public Exit() {
@@ -11,7 +9,7 @@ public class Exit extends AbstractCommand{
     @Override
     public void execute(String... args) {
         try {
-            if(Console.args.length > 1){
+            if(args.length != 1 && !args[0].equals("1")){
                 throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
             }
             System.out.print("exit");

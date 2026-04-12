@@ -1,8 +1,7 @@
 package org.example.Commands;
 
 import org.example.Menegers.CollectionManager;
-import org.example.Utility.Console;
-import org.example.Utility.XmlHandler;
+import org.example.Utility.ScannerParser;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,9 +21,9 @@ public class Save extends AbstractCommand{
 
     @Override
     public void execute(String... args) throws ClassNotFoundException {
-        String data = XmlHandler.SerializeXMLXStream(collectionManager.getCollections());
+        String data = ScannerParser.SerializeXML(collectionManager.getCollections());
         try{
-            if(Console.args.length > 1){
+            if(args.length != 0 && !args[0].equals("1")){
                 throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
             }
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path.toString()));

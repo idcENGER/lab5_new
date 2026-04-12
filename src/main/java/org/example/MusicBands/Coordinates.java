@@ -1,6 +1,6 @@
 package org.example.MusicBands;
 
-public class Coordinates {
+public class Coordinates implements Comparable<Coordinates> {
     private int x;
     private Double y; //Значение поля должно быть больше -147, Поле не может быть null
 
@@ -9,9 +9,23 @@ public class Coordinates {
         this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{" + x + ", " + y + "}";
     }
 
+
+    @Override
+    public int compareTo(Coordinates coordinates) {
+        return (int) (((x*x)+(y*y)) - ((coordinates.x*coordinates.x)
+                +(coordinates.y*coordinates.y)));
+    }
 }

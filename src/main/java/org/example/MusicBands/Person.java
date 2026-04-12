@@ -1,6 +1,6 @@
 package org.example.MusicBands;
 
-public class Person {
+public class Person implements Comparable<Person>{
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
     private String passportID; //Строка не может быть пустой, Значение этого поля должно быть уникальным, Длина строки не должна быть больше 22, Поле может быть null
@@ -13,6 +13,26 @@ public class Person {
         this.height = height;
         this.passportID = passportID;
         this.location = location;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Color getHairColor() {
+        return hairColor;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public String getPassportID() {
+        return passportID;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public void setName(String name) {
@@ -39,5 +59,10 @@ public class Person {
     public String toString(){
         return getClass().getSimpleName()+"{ NAME: " + name + ", HEIGHT: " + height + ", PASSPORT ID: " + passportID +
                 ", HAIR COLOR: " + hairColor + ", " + location.toString() + "}";
+    }
+
+    @Override
+    public int compareTo(Person person) {
+        return name.compareTo(person.name);
     }
 }

@@ -5,8 +5,11 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException{
-        Console.run();
+        if (args.length == 0) {
+            System.out.println("Ошибка: Имя файла должно передаваться через аргумент командной строки.");
+            System.exit(1);
+        }
+        Console.run(args[0]);
     }
 }
-
 
