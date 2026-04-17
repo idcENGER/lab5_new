@@ -39,6 +39,15 @@ public class CollectionManager {
         return IdIsUnique && PassportIdIsUnique;
     }
 
+    public boolean inCollection(MusicBand musicBand){
+        for (MusicBand band: collections){
+            if (musicBand.equals(band)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public MusicBand getMusicBandByID(int id){
         try {
             for (MusicBand musicBand : collections) {

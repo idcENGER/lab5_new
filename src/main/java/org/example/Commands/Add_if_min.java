@@ -34,7 +34,7 @@ public class Add_if_min extends AbstractCommand{
                 newMusicBand.setId(collectionManager.getCollections().size()+1);
                 Scanner scanner = new Scanner(System.in);
                 System.out.println(newMusicBand);
-                System.out.print("Введите критерий для aifm: ");
+                System.out.print("Введите критерий для aifm(скопируйте параметр, написанный большими буквами): ");
                 String param = scanner.nextLine();
                 if (collectionManager.getMusicBandsByParam(newMusicBand,param).isEmpty()){
                     collectionManager.add(newMusicBand);

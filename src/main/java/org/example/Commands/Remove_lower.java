@@ -31,7 +31,7 @@ public class Remove_lower extends AbstractCommand{
             }
             Scanner scanner = new Scanner(System.in);
             System.out.println(element);
-            System.out.print("Введите критерий для rml: ");
+            System.out.print("Введите критерий для rml(скопируйте параметр, написанный большими буквами): ");
             String param = scanner.nextLine();
             collectionManager.getCollections().removeAll(collectionManager.getMusicBandsByParam(element, param));
         }catch (ArrayIndexOutOfBoundsException | NullPointerException exception){

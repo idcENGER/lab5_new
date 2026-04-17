@@ -56,6 +56,14 @@ public class Person implements Comparable<Person>{
     }
 
     @Override
+    public boolean equals(Object o){
+        if (this == o)return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return name.equals(person.getName()) && height.equals(person.getHeight()) && passportID.equals(person.getPassportID()) && hairColor.equals(person.getHairColor()) && location.equals(person.getLocation());
+    }
+
+    @Override
     public String toString(){
         return getClass().getSimpleName()+"{ NAME: " + name + ", HEIGHT: " + height + ", PASSPORT ID: " + passportID +
                 ", HAIR COLOR: " + hairColor + ", " + location.toString() + "}";

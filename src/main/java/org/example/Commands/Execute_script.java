@@ -6,11 +6,12 @@ import org.example.Utility.XmlHandler;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 
 public class Execute_script extends AbstractCommand{
 
     CommandInvoker commandInvoker;
-
+    private final HashSet<Path> scripts = new HashSet<>();
     public Execute_script(CommandInvoker commandInvoker) {
         super("execute", "считать и исполнить скрипт из указанного файла. " +
                 "В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.");
@@ -24,6 +25,10 @@ public class Execute_script extends AbstractCommand{
                 throw new ArrayIndexOutOfBoundsException("Аргумент не может быть равен нулю");
             }
             Path path = Path.of(args[0]);
+            if (scripts.contains(path)){
+                return;
+            }
+            scripts.add(path);
             String content = Files.readString(path);
             String[] commands = content.split("\n");
             for (String command : commands){

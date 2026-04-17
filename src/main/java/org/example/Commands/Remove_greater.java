@@ -30,7 +30,7 @@ public class Remove_greater extends AbstractCommand{
             }
             Scanner scanner = new Scanner(System.in);
             System.out.println(element);
-            System.out.print("Введите критерий для rmg: ");
+            System.out.print("Введите критерий для rmg(скопируйте параметр, написанный большими буквами): ");
             String param = scanner.nextLine();
             collectionManager.getCollections().retainAll(collectionManager.getMusicBandsByParam(element,param));
         }catch (ArrayIndexOutOfBoundsException | NullPointerException e){

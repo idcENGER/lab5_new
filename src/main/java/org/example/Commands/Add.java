@@ -4,12 +4,14 @@ import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.MusicBand;
+import org.example.MusicBands.Person;
 import org.example.Utility.MusicBandBuilder;
 import org.example.Utility.XmlHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class Add extends AbstractCommand{
     CollectionManager collectionManager;
@@ -25,14 +27,31 @@ public class Add extends AbstractCommand{
             if (args.length == 1){
                 MusicBand musicBand = XmlHandler.DeserializeMusicBandXMLXStream(args[0],collectionManager);
                 if (musicBand != null){
-                    collectionManager.add(musicBand);
-                    System.out.println("Музыкальная группа успешно добавлена");
+                    boolean PassportIdIsUnique = collectionManager.getCollections().stream().map(MusicBand::getFrontMan).map(Person::getPassportID).allMatch(new HashSet<String>()::add);
+                    if (collectionManager.inCollection(musicBand)){
+                        System.out.println("Такая музыкальная группа уже есть");
+                    }else if(PassportIdIsUnique){
+                        collectionManager.add(musicBand);
+                        System.out.println("Музыкальная группа успешно добавлена");
+                    }else {
+                        System.out.println("Неверные паспортные данные: такие данные уже есть");
+                    }
                 }else {
                     throw new NullPointerException("Ошибка парсинга");
                 }
             }else{
                 if (args.length == 0){
-                    collectionManager.add(MusicBandBuilder.buildMusicBandByNoArgs(collectionManager));
+                    MusicBand musicBand = MusicBandBuilder.buildMusicBandByNoArgs(collectionManager);
+                    boolean PassportIdIsUnique = collectionManager.getCollections().stream().map(MusicBand::getFrontMan).map(Person::getPassportID).allMatch(new HashSet<String>()::add);
+                    if (collectionManager.inCollection(musicBand)){
+                        System.out.println("Такая музыкальная группа уже есть");
+                    }else if(PassportIdIsUnique){
+                        collectionManager.add(musicBand);
+                        System.out.println("Музыкальная группа успешно добавлена");
+                    }else {
+                        System.out.println("Неверные паспортные данные: такие данные уже есть");
+                    }
+
                     System.out.println("Музыкальная группа успешно добавлена");
                 }else{
                     ArrayList<String> params = new ArrayList<>();

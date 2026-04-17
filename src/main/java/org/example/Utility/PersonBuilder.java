@@ -3,7 +3,6 @@ package org.example.Utility;
 import org.example.MusicBands.*;
 
 import java.util.Scanner;
-
 public class PersonBuilder {
 
     public static Person buildPerson(){

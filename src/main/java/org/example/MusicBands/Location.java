@@ -24,6 +24,14 @@ public class Location {
     }
 
     @Override
+    public boolean equals(Object o){
+        if (this == o)return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location l = (Location) o;
+        return x == l.getX() && y == l.getY() && z == l.getZ();
+    }
+
+    @Override
     public String toString(){
         return getClass().getSimpleName() + "{" + x + ", " + y + ", " + z + "}";
     }

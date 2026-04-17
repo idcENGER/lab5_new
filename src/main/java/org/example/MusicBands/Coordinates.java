@@ -18,6 +18,14 @@ public class Coordinates implements Comparable<Coordinates> {
     }
 
     @Override
+    public boolean equals(Object o){
+        if (this == o)return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates c = (Coordinates) o;
+        return x == c.getX() && y.equals(c.getY());
+    }
+
+    @Override
     public String toString(){
         return getClass().getSimpleName() + "{" + x + ", " + y + "}";
     }

@@ -39,7 +39,7 @@ public class CommandInvoker {
                 commandMap.get(commandName).execute();
             }
         }catch (NullPointerException ex){
-            System.out.println("Unsupported command");
+            System.out.println("Unsupported command: "+commandName);
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }

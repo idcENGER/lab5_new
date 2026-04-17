@@ -90,6 +90,14 @@ public class MusicBand {
         this.creationDate = creationDate;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (this == o)return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MusicBand band = (MusicBand) o;
+        return name.equals(band.getName()) && numberOfParticipants.equals(band.getNumberOfParticipants()) && genre.equals(band.getGenre())
+                && frontMan.equals(band.getFrontMan());
+    }
 
     @Override
     public String toString(){
