@@ -40,11 +40,14 @@ public class PersonBuilder {
 
     private static String askPassportID() throws IllegalArgumentException {
         while (true){
-            System.out.print("Введите пасспортные данные: ");
+            System.out.print("Введите пасспортные данные(в паспортных данных до 22 символов(буквы и цифры): ");
             try {
                 String id = XmlHandler.SpaceRemover(scanner.nextLine());
                 if (id.length() >22) {
-                    throw new IllegalArgumentException("В пасспортных данных не больше 22 символов.");
+                    throw new IllegalArgumentException("В паспортных данных не больше 22 символов.");
+                }
+                if (!id.matches("[A-ZА-ЯЁa-zа-яё0-9]+$")){
+                    throw new IllegalArgumentException("Некорректные пасспортные данные");
                 }
                 if(id.isBlank()){
                     throw new NullPointerException("Строка не может быть пустой");
@@ -76,6 +79,7 @@ public class PersonBuilder {
     private static Location askLocation(){
         while(true) {
             try {
+                System.out.print("-1.8 * 10 ^ 308 <= x <= -1.8 * 10 ^ 308, -2*63 <= y <= 2^63-1,-3.4*10^38 <= z <= 3.4*10^38");
                 System.out.print("Введите координаты в формате x,y,z: ");
                 String str = XmlHandler.SpaceRemover(scanner.nextLine());
                 if (!str.substring(str.length()-1).matches("^[0-9]")){

@@ -32,8 +32,11 @@ public class Console {
         commandInvoker.register(new Remove_greater(collectionManager));
         commandInvoker.register(new Remove_lower(collectionManager));
         commandInvoker.register(new Execute_script(commandInvoker));
-        collectionManager.recoverCollection(filename);
         System.out.println("Welcome to Lab5APP. Enter help to get command list.");
+        if (!collectionManager.recoverCollection(filename)){
+            System.out.print("Некорректная коллекция: ID не уникальны");
+            System.exit(0);
+        }
         while (true){
             System.out.print("=>");
             String command = XmlHandler.SpaceRemover(scanner.nextLine());

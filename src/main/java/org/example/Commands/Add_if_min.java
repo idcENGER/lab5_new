@@ -1,8 +1,13 @@
 package org.example.Commands;
 
+import com.thoughtworks.xstream.converters.ConversionException;
+import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.MusicBand;
 import org.example.Utility.MusicBandBuilder;
+import org.example.Utility.XmlHandler;
+
+import java.util.Scanner;
 
 public class Add_if_min extends AbstractCommand{
 
@@ -14,20 +19,31 @@ public class Add_if_min extends AbstractCommand{
     }
 
     @Override
-    public void execute(String... args) {
+    public void execute(String... args) throws CannotResolveClassException, ConversionException {
         try {
-            if (args.length == 1){
-                throw new ArrayIndexOutOfBoundsException("Аргумент не может быть равен нулю");
+            if (args.length > 1){
+                throw new ArrayIndexOutOfBoundsException("Неверное количество аргументов");
             }
-            MusicBand newMusicBand = MusicBandBuilder.buildMusicBandByNoArgs(null);
+            MusicBand newMusicBand;
+            if (args.length == 0){
+                newMusicBand = MusicBandBuilder.buildMusicBandByNoArgs(null);
+            } else {
+                newMusicBand = XmlHandler.DeserializeMusicBandXMLXStream(args[0],collectionManager);
+            }
             if (newMusicBand != null) {
                 newMusicBand.setId(collectionManager.getCollections().size()+1);
+                Scanner scanner = new Scanner(System.in);
+                System.out.println(newMusicBand);
+                System.out.print("Введите критерий для aifm: ");
+                String param = scanner.nextLine();
+                if (collectionManager.getMusicBandsByParam(newMusicBand,param).isEmpty()){
+                    collectionManager.add(newMusicBand);
+                    System.out.println("Элемент добавлен.");
+                }
+            }else {
+                throw new NullPointerException("Ошибка парсинга");
             }
-            if (collectionManager.getMusicBandsByParam(newMusicBand).isEmpty()){
-                collectionManager.add(newMusicBand);
-                System.out.println("Элемент добавлен.");
-            }
-        }catch (ArrayIndexOutOfBoundsException ex){
+        }catch (ArrayIndexOutOfBoundsException | NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }

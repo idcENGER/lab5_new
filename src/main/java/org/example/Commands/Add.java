@@ -1,8 +1,11 @@
 package org.example.Commands;
 
+import com.thoughtworks.xstream.converters.ConversionException;
+import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.MusicBand;
 import org.example.Utility.MusicBandBuilder;
+import org.example.Utility.XmlHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,26 +20,36 @@ public class Add extends AbstractCommand{
     }
 
     @Override
-    public void execute(String... args) throws IOException {
+    public void execute(String... args) throws IOException, CannotResolveClassException, ConversionException {
         try {
-            if (args.length == 0){
-                collectionManager.add(MusicBandBuilder.buildMusicBandByNoArgs(collectionManager));
-                System.out.println("Музыкальная группа успешно добавлена");
+            if (args.length == 1){
+                MusicBand musicBand = XmlHandler.DeserializeMusicBandXMLXStream(args[0],collectionManager);
+                if (musicBand != null){
+                    collectionManager.add(musicBand);
+                    System.out.println("Музыкальная группа успешно добавлена");
+                }else {
+                    throw new NullPointerException("Ошибка парсинга");
+                }
             }else{
-                ArrayList<String> params = new ArrayList<>();
-                for (String argument: args){
-                    String[] s = argument.split(";");
-                    params.addAll(Arrays.asList(s));
+                if (args.length == 0){
+                    collectionManager.add(MusicBandBuilder.buildMusicBandByNoArgs(collectionManager));
+                    System.out.println("Музыкальная группа успешно добавлена");
+                }else{
+                    ArrayList<String> params = new ArrayList<>();
+                    for (String argument: args){
+                        String[] s = argument.split(";");
+                        params.addAll(Arrays.asList(s));
+                    }
+                    if(params.size() != 9){
+                        throw new ArrayIndexOutOfBoundsException("Неверное количество аргументов");
+                    }
+                    MusicBand musicBand = MusicBandBuilder.buildMusicBandByParams(collectionManager,params);
+                    if (musicBand == null){
+                        throw new NullPointerException("Неверный аргумент");
+                    }
+                    collectionManager.add(musicBand);
+                    System.out.println("Музыкальная группа успешно добавлена");
                 }
-                if(params.size() != 9){
-                    throw new ArrayIndexOutOfBoundsException("Неверное количество аргументов");
-                }
-                MusicBand musicBand = MusicBandBuilder.buildMusicBandByParams(collectionManager,params);
-                if (musicBand == null){
-                    throw new NullPointerException("Неверный аргумент");
-                }
-                collectionManager.add(musicBand);
-                System.out.println("Музыкальная группа успешно добавлена");
             }
         }catch (IllegalArgumentException | NullPointerException ex){
             System.out.println("Музыкальная группа не добавлена: " + ex.getMessage());

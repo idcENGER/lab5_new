@@ -1,6 +1,8 @@
 package org.example.Utility;
 
+import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.io.StreamException;
+import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.MusicBand;
 
@@ -14,12 +16,17 @@ import java.util.Set;
 
 public class XmlHandler {
     
-    public static MusicBand DeserializeMusicBandXMLXStream(String dataPath) throws IOException {
-        XStream xStream = new XStream();
-        xStream.allowTypes(new Class[] {MusicBand.class});
-        String content = Files.readString(Path.of(dataPath));
-        xStream.alias("MusicBand",MusicBand.class);
-        return (MusicBand) xStream.fromXML(content);
+    public static MusicBand DeserializeMusicBandXMLXStream(String data,CollectionManager collectionManager) {
+        try {
+            XStream xStream = new XStream();
+            xStream.allowTypes(new Class[] {MusicBand.class});
+            xStream.alias("MusicBand",MusicBand.class);
+            MusicBand band = (MusicBand) xStream.fromXML(data);
+            band.setId(collectionManager.getSize()+1);
+            return band;
+        }catch (CannotResolveClassException | ConversionException exception){
+            return null;
+        }
     }
 
     public static HashSet<MusicBand> DeserializeCollectionXMLXStream(String dataPath) throws IOException {
@@ -46,10 +53,7 @@ public class XmlHandler {
 
     public static String SpaceRemover(String message){
         message = message.replace("\t"," ");
-        while (message.startsWith(" ")){
-            message = message.replaceFirst(" ","");
-        }
-        return message;
+        return message.strip();
     }
 
     public static String AllSpaceRemover(String message){

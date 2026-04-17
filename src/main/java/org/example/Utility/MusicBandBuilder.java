@@ -3,7 +3,6 @@ package org.example.Utility;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.*;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ public class MusicBandBuilder {
             try {
                 System.out.print("Введите название музыкальной группы: ");
                 String name = XmlHandler.SpaceRemover(scanner.nextLine());
+                if (!name.matches("[A-ZА-ЯЁa-zа-яё0-9 ]+$")){throw new IllegalArgumentException("Некорректное имя. Имя музыкальной группы не может содержать специальные символы");}
                 if (name.isBlank()){throw new IllegalArgumentException("Имя не может быть пустым");}
                 return name;
             }catch (IllegalArgumentException ex){
@@ -44,7 +44,7 @@ public class MusicBandBuilder {
     private static Coordinates askCoordinates() throws IllegalArgumentException{
         while(true) {
             try {
-                System.out.print("Введите координаты в формате x,y(не меньше -147): ");
+                System.out.print("Введите координаты в формате x,y(-32_768 <= x <= 32_767,-147 <= y <= 1.8 * 10^308): ");
                 String str = XmlHandler.SpaceRemover(scanner.nextLine());
                 if(!str.substring(str.length()-1).matches("^[0-9]")){
                     throw new IllegalArgumentException();
@@ -64,7 +64,7 @@ public class MusicBandBuilder {
     }
 
     private static Long askNumberOfParticipants(){
-        System.out.print("Введите число участников: ");
+        System.out.print("Введите число участников(от 1 до 2^63-1): ");
         long n = 0L;
         try {
             n = Long.parseLong(XmlHandler.SpaceRemover(scanner.nextLine()));
@@ -106,7 +106,7 @@ public class MusicBandBuilder {
         }
     }
 
-    public static MusicBand buildMusicBandByParams(CollectionManager collectionManager, ArrayList<String> params) throws IOException {
+    public static MusicBand buildMusicBandByParams(CollectionManager collectionManager, ArrayList<String> params){
         try {
             String[] c = XmlHandler.SpaceRemover(params.get(1)).split(",");
             String[] l = XmlHandler.SpaceRemover(params.get(8)).split(",");
@@ -145,5 +145,15 @@ public class MusicBandBuilder {
         musicBand.setEstablishmentDate(LocalDate.now());
         musicBand.setGenre(askGenre());
         musicBand.setFrontMan(askFrontMan(false,musicBand));
+    }
+
+    public static void RawMusicBandUpdater(MusicBand musicBand,MusicBand newMusicBand){
+        musicBand.setName(newMusicBand.getName());
+        musicBand.setCoordinates(newMusicBand.getCoordinates());
+        musicBand.setCreationDate(newMusicBand.getCreationDate());
+        musicBand.setNumberOfParticipants(newMusicBand.getNumberOfParticipants());
+        musicBand.setEstablishmentDate(newMusicBand.getEstablishmentDate());
+        musicBand.setGenre(newMusicBand.getGenre());
+        musicBand.setFrontMan(newMusicBand.getFrontMan());
     }
 }

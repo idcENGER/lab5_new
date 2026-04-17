@@ -1,7 +1,10 @@
 package org.example.Commands;
 
 import org.example.Menegers.CollectionManager;
+import org.example.MusicBands.MusicBand;
 import org.example.Utility.XmlHandler;
+
+import java.util.HashSet;
 
 public class Filter_starts_with_name extends AbstractCommand{
 
@@ -18,7 +21,14 @@ public class Filter_starts_with_name extends AbstractCommand{
             if(args.length == 0){
                 throw new ArrayIndexOutOfBoundsException("Аргумент не может быть равен нулю");
             }
-            System.out.println(collectionManager.filterMusicBandByName(XmlHandler.SpaceRemover(args[0]),true).toString());
+            HashSet<MusicBand> set = collectionManager.filterMusicBandByName(XmlHandler.SpaceRemover(args[0]),true);
+            if (!set.isEmpty()){
+                for (MusicBand band : set){
+                    System.out.println(band);
+                }
+            }else{
+                System.out.println("Группы с таким именем не нашлось");
+            }
         }catch (ArrayIndexOutOfBoundsException ex){
             System.out.println(ex.getMessage());
         }

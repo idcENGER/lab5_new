@@ -23,7 +23,7 @@ public class Save extends AbstractCommand{
     public void execute(String... args) throws ClassNotFoundException {
         String data = ScannerParser.SerializeXML(collectionManager.getCollections());
         try{
-            if(args.length != 0 && !args[0].equals("1")){
+            if(args.length != 0){
                 throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
             }
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path.toString()));

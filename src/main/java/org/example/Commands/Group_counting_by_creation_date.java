@@ -22,6 +22,9 @@ public class Group_counting_by_creation_date extends AbstractCommand{
     @Override
     public void execute(String... args) {
         try {
+            if(args.length != 0){
+                throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
+            }
             HashSet<MusicBand> collection = (HashSet<MusicBand>) collectionManager.getCollections().clone();
         Iterator<MusicBand> iterator = collection.iterator();
         ArrayList<ZonedDateTime> date = new ArrayList<>();

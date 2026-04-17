@@ -6,7 +6,6 @@ import org.example.Utility.XmlHandler;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,9 +32,12 @@ public class CommandInvoker {
     }
 
     public void executeScriptCommand(String commandName,String[] args) throws NullPointerException{
-        System.out.println(commandName + " | " + Arrays.toString(args));
         try {
-            commandMap.get(commandName).execute(args);
+            if (args != null) {
+                commandMap.get(commandName).execute(args);
+            }else {
+                commandMap.get(commandName).execute();
+            }
         }catch (NullPointerException ex){
             System.out.println("Unsupported command");
         } catch (IOException | ClassNotFoundException e) {

@@ -3,6 +3,7 @@ package org.example.Commands;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.MusicBand;
 import org.example.Utility.MusicBandBuilder;
+import org.example.Utility.XmlHandler;
 
 public class Update_by_id extends AbstractCommand{
     CollectionManager collectionManager;
@@ -15,16 +16,25 @@ public class Update_by_id extends AbstractCommand{
     @Override
     public void execute(String... args) {
         try {
-            String s = args[0].replace(" ","");
-            s = s.replace("\t","");
-            int id = Integer.parseInt(s);
+            String[] arguments = args[0].split(" ",2);
+            int id = Integer.parseInt(arguments[0]);
             MusicBand musicBand = collectionManager.getMusicBandByID(id);
-            if(musicBand != null){
-                System.out.println("Обновление музыкальной группы");
-                MusicBandBuilder.MusicBandUpdater(musicBand);
+            if (arguments.length == 1){
+                if(musicBand != null){
+                    System.out.println("Обновление музыкальной группы...");
+                    MusicBandBuilder.MusicBandUpdater(musicBand);
+                }
+            }else {
+                MusicBand newMusicBand = XmlHandler.DeserializeMusicBandXMLXStream(arguments[1],collectionManager);
+                if(musicBand != null){
+                    System.out.println("Обновление музыкальной группы");
+                    MusicBandBuilder.RawMusicBandUpdater(musicBand,newMusicBand);
+                }else {
+                    throw new NullPointerException("Ошибка парсинга");
+                }
             }
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("Некорректное значение id: " + e.getMessage());
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

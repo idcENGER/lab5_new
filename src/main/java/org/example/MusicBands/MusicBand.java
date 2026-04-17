@@ -93,7 +93,7 @@ public class MusicBand {
 
     @Override
     public String toString(){
-        return getClass().getSimpleName()+"{\nID: " + id + ", NAME: " + name + ", COORDINATE: " + coordinates.toString() +
+        return getClass().getSimpleName()+"{\nID: " + id + ", NAME: " + name + ", COORDINATES: " + coordinates.toString() +
                 ", CREATION DATE: " + creationDate + ",\nNUMBER OF PARTICIPANTS: " +
                  numberOfParticipants + ", ESTABLISHMENT DATE: " + establishmentDate + ", MUSIC GENRE: " + genre +
                 ",\nFRONT MAN: " + frontMan.toString() + "\n}";

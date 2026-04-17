@@ -2,7 +2,6 @@ package org.example.Menegers;
 
 import org.example.Exceptions.WrongArgumentException;
 import org.example.MusicBands.*;
-import org.example.Utility.Console;
 import org.example.Utility.ScannerParser;
 
 import java.io.IOException;
@@ -30,9 +29,14 @@ public class CollectionManager {
         return collections.size();
     }
 
-    public void recoverCollection(String path) throws IOException,NullPointerException {
+    public boolean recoverCollection(String path) throws IOException,NullPointerException {
         HashSet<MusicBand> data = ScannerParser.DeserializeCollectionXML(path);
-        collections.addAll(data);
+        boolean IdIsUnique = data.stream().map(MusicBand::getId).allMatch(new HashSet<Integer>()::add);
+        boolean PassportIdIsUnique = data.stream().map(MusicBand::getFrontMan).map(Person::getPassportID).allMatch(new HashSet<String>()::add);
+        if (IdIsUnique && PassportIdIsUnique) {
+            collections.addAll(data);
+        }
+        return IdIsUnique && PassportIdIsUnique;
     }
 
     public MusicBand getMusicBandByID(int id){
@@ -88,7 +92,6 @@ public class CollectionManager {
                     set.add(musicBand);
                 }
             }
-            System.out.println(set);
             return set;
         }catch (NullPointerException ex){
             System.out.println("Collection is empty");
@@ -126,7 +129,6 @@ public class CollectionManager {
                     set.add(musicBand);
                 }
             }
-            System.out.println(set);
             return set;
         }catch (NullPointerException ex){
             System.out.println("Collection is empty");
@@ -134,12 +136,10 @@ public class CollectionManager {
         }
     }
 
-    public HashSet<MusicBand> getMusicBandsByParam(MusicBand element) throws WrongArgumentException {
+    public HashSet<MusicBand> getMusicBandsByParam(MusicBand element,String param) throws WrongArgumentException {
         boolean validParam = false;
-        String[] PARAMS = {"name","id","coordinates", "numberOfParticipants","genre","frontman"};
+        String[] PARAMS = {"NAME","ID","COORDINATES", "NUMBER OF PARTICIPANTS","GENRE","FRONT MAN"};
         try {
-            String[] arguments = Console.args[1].split(" ");
-            String param = arguments[0];
             for (String i: PARAMS){
                 if (param.equals(i)){
                     validParam = true;
@@ -152,25 +152,25 @@ public class CollectionManager {
                     throw new WrongArgumentException("У музыкальной группы нет такого параметра");
                 }
                 switch (param){
-                    case "name" -> {
+                    case "NAME" -> {
                         return getGreaterMusicBandByName(element.getName());
                     }
-                    case  "id" -> {
+                    case  "ID" -> {
                         HashSet<MusicBand> set = new HashSet<>();
                         set.add(getMusicBandByID(Integer.parseInt("1")));
                         return set;
                     }
-                    case "coordinates" -> {
+                    case "COORDINATES" -> {
                         Coordinates value = element.getCoordinates();
                         return getGreaterMusicBandByCoordinates(value);
                     }
-                    case "numberOfParticipants" -> {
+                    case "NUMBER OF PARTICIPANTS" -> {
                         return getMusicBandByNumberOfParticipants(element.getNumberOfParticipants());
                     }
-                    case "genre" -> {
+                    case "GENRE" -> {
                         return getGreaterMusicBandByGenre(element.getGenre());
                     }
-                    case "frontman" ->{
+                    case "FRONT MAN" ->{
                         return getGreaterMusicBandByFrontMan(element.getFrontMan());
                     }
                 }
@@ -186,28 +186,27 @@ public class CollectionManager {
         }
     }
 
-    public MusicBand filterMusicBandByName(String name,boolean start_with){
+    public HashSet<MusicBand> filterMusicBandByName(String name,boolean start_with){
+        HashSet<MusicBand> set = new HashSet<>();
         try {
             if (!start_with){
                 for (MusicBand musicBand : collections) {
                     if (musicBand.getName().contains(name)) {
-                        return musicBand;
+                        set.add(musicBand);
                     }
-                    throw new NullPointerException("группы с таким именем не нашлось");
                 }
             }else {
                 for (MusicBand musicBand : collections) {
                     if (musicBand.getName().startsWith(name)) {
-                        return musicBand;
+                        set.add(musicBand);
                     }
                 }
-                throw new NullPointerException("Группы с таким именем не нашлось");
             }
         }catch (NullPointerException ex){
             System.out.println(ex.getMessage());
             return null;
         }
-        return null;
+        return set;
     }
 
     @Override

@@ -3,6 +3,9 @@ package org.example.Commands;
 import org.example.Menegers.CollectionManager;
 import org.example.MusicBands.MusicBand;
 import org.example.Utility.MusicBandBuilder;
+import org.example.Utility.XmlHandler;
+
+import java.util.Scanner;
 
 public class Remove_greater extends AbstractCommand{
 
@@ -15,7 +18,23 @@ public class Remove_greater extends AbstractCommand{
 
     @Override
     public void execute(String... args){
-        MusicBand element = MusicBandBuilder.buildMusicBandByNoArgs(null);
-        collectionManager.getCollections().retainAll(collectionManager.getMusicBandsByParam(element));
+        try {
+            MusicBand element;
+            if (args.length ==0){
+                element = MusicBandBuilder.buildMusicBandByNoArgs(null);
+            }else {
+                element = XmlHandler.DeserializeMusicBandXMLXStream(args[0],collectionManager);
+                if (element == null){
+                    throw new NullPointerException("Ошибка парсинга");
+                }
+            }
+            Scanner scanner = new Scanner(System.in);
+            System.out.println(element);
+            System.out.print("Введите критерий для rmg: ");
+            String param = scanner.nextLine();
+            collectionManager.getCollections().retainAll(collectionManager.getMusicBandsByParam(element,param));
+        }catch (ArrayIndexOutOfBoundsException | NullPointerException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
