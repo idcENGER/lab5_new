@@ -30,8 +30,7 @@ public class Execute_script extends AbstractCommand{
                 XmlHandler.SpaceRemover(command);
                 String[] cmd = command.replace("\t"," ").split(" ",2);
                 String commandName = XmlHandler.AllSpaceRemover(cmd[0]);
-                String arg = XmlHandler.SpaceRemover(cmd[1]);
-                if (!arg.isEmpty()){
+                if (cmd.length > 1){
                     String[] arguments = cmd[1].split(";");
                     commandInvoker.executeScriptCommand(commandName,arguments);
                 }else {
