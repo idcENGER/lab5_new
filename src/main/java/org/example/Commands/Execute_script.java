@@ -26,6 +26,8 @@ public class Execute_script extends AbstractCommand{
             }
             Path path = Path.of(args[0]);
             if (scripts.contains(path)){
+                System.out.println("Рекурсия заблокирована");
+                scripts.clear();
                 return;
             }
             scripts.add(path);
@@ -42,7 +44,7 @@ public class Execute_script extends AbstractCommand{
                     commandInvoker.executeScriptCommand(commandName, null);
                 }
             }
-
+        scripts.clear();
         }catch (ArrayIndexOutOfBoundsException ex){
             System.out.println(ex.getMessage());
         }catch (IOException exception){

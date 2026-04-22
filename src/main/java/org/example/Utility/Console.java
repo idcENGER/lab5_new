@@ -12,7 +12,11 @@ public class Console {
 
     public static String[] args;
 
+
     public static void run(String filename) throws IOException {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("\nВыход");
+        }));
         CollectionManager collectionManager = new CollectionManager();
         CommandInvoker commandInvoker = new CommandInvoker();
         Scanner scanner = new Scanner(System.in);
@@ -22,7 +26,7 @@ public class Console {
         commandInvoker.register(new Exit());
         commandInvoker.register(new Show(collectionManager));
         commandInvoker.register(new Add(collectionManager));
-        commandInvoker.register(new Save(collectionManager, Path.of("data.xml")));
+        commandInvoker.register(new Save(collectionManager, Path.of(filename)));
         commandInvoker.register(new Remove_by_id(collectionManager));
         commandInvoker.register(new Update_by_id(collectionManager));
         commandInvoker.register(new Filter_contains_name(collectionManager));
@@ -34,18 +38,22 @@ public class Console {
         commandInvoker.register(new Execute_script(commandInvoker));
         System.out.println("Welcome to Lab5APP. Enter help to get command list.");
         if (!collectionManager.recoverCollection(filename)){
-            System.out.print("Некорректная коллекция: ID не уникальны");
             System.exit(0);
         }
         while (true){
-            System.out.print("=>");
-            String command = XmlHandler.SpaceRemover(scanner.nextLine());
-            command = command.replace("\t", " ");
-            args = command.split(" ",2);
-            String commandName = args[0];
-            XmlHandler.AllSpaceRemover(commandName);
-            if (commandName.isBlank()){continue;}
-            commandInvoker.execute(commandName);
+            try {
+                Thread.sleep(0);
+                System.out.print("=>");
+                String command = XmlHandler.SpaceRemover(scanner.nextLine());
+                command = command.replace("\t", " ");
+                args = command.split(" ",2);
+                String commandName = args[0];
+                XmlHandler.AllSpaceRemover(commandName);
+                if (commandName.isBlank()){continue;}
+                commandInvoker.execute(commandName);
+            }catch (InterruptedException e){
+                Thread.currentThread().interrupt();
+            }
         }
     }
 }

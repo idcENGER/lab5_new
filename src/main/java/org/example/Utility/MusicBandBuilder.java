@@ -51,7 +51,7 @@ public class MusicBandBuilder {
                 }
                 String[] coordinates = str.split(",");
                 int x = Integer.parseInt(coordinates[0]);
-                double y = Double.parseDouble(coordinates[1]);
+                double y = Double.parseDouble(coordinates[1].replace(",","."));
                 if (y <= -147) {
                     throw new IllegalArgumentException("Слишком маленькое значение для y = " + y);
                 }else{
@@ -72,7 +72,7 @@ public class MusicBandBuilder {
             System.out.println(ex.getMessage());
         }
         while (n <= 0L){
-            System.out.print("Введено некорректное значение. Введите целое число участников: ");
+            System.out.print("Введено некорректное значение(число не положительное). Введите целое число участников: ");
             try {
                 n = Long.parseLong(XmlHandler.SpaceRemover(scanner.nextLine()));
             }catch (NumberFormatException exception){
@@ -85,13 +85,13 @@ public class MusicBandBuilder {
     private static MusicGenre askGenre(){
         while (true){
             MusicGenre.genre();
-            System.out.print("Введите жанр музыки или её номер: ");
+            System.out.print("Введите жанр музыки или её номер из списка: ");
             try {
                 String genre = scanner.nextLine();
                 if(genre.matches("^[0-9]")){
                     return MusicGenre.values()[Integer.parseInt(genre)];
                 }else{
-                    return MusicGenre.valueOf(XmlHandler.SpaceRemover(genre));
+                    return MusicGenre.valueOf(XmlHandler.SpaceRemover(genre.toUpperCase()));
                 }
             }catch (IllegalArgumentException ex){
                 System.out.println("Некорректный жанр. Попробуйте еще раз.");

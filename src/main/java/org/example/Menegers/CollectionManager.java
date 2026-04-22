@@ -7,6 +7,7 @@ import org.example.Utility.ScannerParser;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class CollectionManager {
 
@@ -35,6 +36,10 @@ public class CollectionManager {
         boolean PassportIdIsUnique = data.stream().map(MusicBand::getFrontMan).map(Person::getPassportID).allMatch(new HashSet<String>()::add);
         if (IdIsUnique && PassportIdIsUnique) {
             collections.addAll(data);
+        }else if (!PassportIdIsUnique){
+            System.out.println("Паспортные данные в коллекции не уникальны");
+        }else {
+            System.out.println("ID в коллекции не уникальны");
         }
         return IdIsUnique && PassportIdIsUnique;
     }

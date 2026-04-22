@@ -18,7 +18,7 @@ public class Clear extends AbstractCommand{
                 throw new ArrayIndexOutOfBoundsException("Команда не поддерживает аргументы");
             }
             collectionManager.clear();
-            System.out.println("Коллекция отчищена");
+            System.out.println("Коллекция очищена");
         }catch (ArrayIndexOutOfBoundsException e){
             System.out.println(e.getMessage());
         }

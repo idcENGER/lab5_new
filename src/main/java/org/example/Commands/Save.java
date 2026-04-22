@@ -28,7 +28,8 @@ public class Save extends AbstractCommand{
             }
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path.toString()));
             writer.write(data);
-            writer.close();
+            writer.flush();
+            System.out.println("Коллеция сохранена");
         } catch (IOException | ArrayIndexOutOfBoundsException ex) {
             System.out.println(ex.getMessage());
         }

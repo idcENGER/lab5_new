@@ -13,7 +13,7 @@ public class PersonBuilder {
 
     private static String askName(){
         while (true){
-            System.out.print("Введите имя артиста: ");
+            System.out.print("Введите имя артиста(Имя начать с большой буквы. Имя может содержать только буквы): ");
             try {
             String name = XmlHandler.SpaceRemover(scanner.nextLine());
             if (name.matches("^[A-ZА-ЯЁ][a-zа-яё]+(?:[- ][A-ZА-ЯЁ][a-zа-яё]+)*$")) {return name;}
@@ -26,12 +26,15 @@ public class PersonBuilder {
     private static Float askHeight(){
         float input;
         do {
-            System.out.print("Введите рост артиста: ");
+            System.out.print("Введите рост артиста(Число с плавающей точкой от 0 до 300): ");
             try {
-                input = Float.parseFloat(XmlHandler.SpaceRemover(scanner.nextLine()));
+                input = Float.parseFloat(XmlHandler.SpaceRemover(scanner.nextLine()).replace(",","."));
             }catch (NumberFormatException exception){
-                System.out.println(exception.getMessage());
+                System.out.println("Данные в неверном формате:" +exception.getMessage());
                 input = 0f;
+            }
+            if (input <= 0f || input >= 300f){
+                System.out.println("Некорректные данные: рост не может быть отрицательным или большим 300");
             }
         }while (input <= 0f || input >= 300f);
         return input;
@@ -46,7 +49,7 @@ public class PersonBuilder {
                     throw new IllegalArgumentException("В паспортных данных не больше 22 символов.");
                 }
                 if (!id.matches("[A-ZА-ЯЁa-zа-яё0-9]+$")){
-                    throw new IllegalArgumentException("Некорректные пасспортные данные");
+                    throw new IllegalArgumentException("В паспортных даннаых могут быть только цифры и буквы");
                 }
                 if(id.isBlank()){
                     throw new NullPointerException("Строка не может быть пустой");
@@ -61,13 +64,13 @@ public class PersonBuilder {
     private static Color askHairColor(){
         while (true){
             Color.colors();
-            System.out.print("Введите цвет или его номер: ");
+            System.out.print("Введите цвет или его номер из списка: ");
             try {
                 String color = scanner.nextLine();
                 if(color.matches("^[0-9]+")){
                     return Color.values()[Integer.parseInt(color)];
                 }else{
-                    return Color.valueOf(XmlHandler.SpaceRemover(color));
+                    return Color.valueOf(XmlHandler.SpaceRemover(color.toUpperCase()));
                 }
             }catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ex){
                 System.out.println("Некорректный цвет. Попробуйте еще раз.");
@@ -85,9 +88,9 @@ public class PersonBuilder {
                     throw new IllegalArgumentException();
                 }
                 String[] location = str.split(",");
-                double x = Double.parseDouble(XmlHandler.SpaceRemover(location[0]));
+                double x = Double.parseDouble(XmlHandler.SpaceRemover(location[0].replace(",",".")));
                 long y = Long.parseLong(XmlHandler.SpaceRemover(location[1]));
-                float z = Float.parseFloat(XmlHandler.SpaceRemover(location[2]));
+                float z = Float.parseFloat(XmlHandler.SpaceRemover(location[2].replace(",",".")));
                 return new Location(x,y,z);
             }catch (IllegalArgumentException | IndexOutOfBoundsException ex){
                 System.out.println("Некорректные данные. " + ex.getMessage());
