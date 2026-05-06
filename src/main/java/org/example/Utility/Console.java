@@ -12,7 +12,6 @@ public class Console {
 
     public static String[] args;
 
-
     public static void run(String filename) throws IOException {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("\nВыход");
